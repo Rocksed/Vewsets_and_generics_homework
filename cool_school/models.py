@@ -22,6 +22,7 @@ class Lesson(models.Model):
     description = models.CharField(max_length=150, verbose_name='описание урока')
     preview = models.ImageField(upload_to='media_lesson/', verbose_name='картинка урока', **NULLABLE)
     video_link = models.CharField(max_length=50, verbose_name='ссылка на урок')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE)
 
     def __str__(self):
         return f'{self.title} {self.description}'
@@ -36,6 +37,7 @@ class Course(models.Model):
     title = models.CharField(max_length=50, verbose_name='название курса')
     preview = models.ImageField(upload_to='media/', verbose_name='картинка к курсу', **NULLABLE)
     description = models.CharField(max_length=150, verbose_name='описание курса')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE)
 
     def __str__(self):
         return f'{self.title} {self.description}'
