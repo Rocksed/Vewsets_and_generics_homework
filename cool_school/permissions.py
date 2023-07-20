@@ -1,11 +1,14 @@
+from rest_framework import permissions
 from rest_framework.permissions import BasePermission
 
 
 class UserOrStuff(BasePermission):
 
     def has_permission(self, request, view):
-        if request.user == view.get_object().user:
+        return request.user.is_authenticated is True
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
             return True
-        elif request.user.is_staff:
-            return True
-        return False
+
+        return obj.author == request.user
