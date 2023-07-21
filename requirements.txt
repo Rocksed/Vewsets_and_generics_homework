@@ -6,3 +6,4 @@ pillow
 Faker
 django-filter
 djangorestframework-simplejwt
+coverage

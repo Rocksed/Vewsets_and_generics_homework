@@ -9,7 +9,7 @@ class Lesson(models.Model):
     title = models.CharField(max_length=50, verbose_name='название урока')
     description = models.CharField(max_length=150, verbose_name='описание урока')
     preview = models.ImageField(upload_to='media_lesson/', verbose_name='картинка урока', **NULLABLE)
-    video_link = models.CharField(max_length=50, verbose_name='ссылка на урок')
+    video_link = models.CharField(max_length=50, verbose_name='ссылка на урок', **NULLABLE)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE)
 
     def __str__(self):
@@ -52,3 +52,12 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.payment_date}'
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс')
+
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'

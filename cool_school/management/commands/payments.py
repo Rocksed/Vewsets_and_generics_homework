@@ -14,11 +14,16 @@ class Command(BaseCommand):
         for _ in range(10):
             user = User.objects.create(
                 email=fake.email(),
-                username=fake.user_name(),
-                phone=fake.phone_number(),
-                avatar=None,
-                city=fake.city()
+                first_name=fake.user_name(),
+                last_name=fake.user_name(),
+                is_staff=False,
+                is_superuser=False,
+                is_active=True
             )
+
+            user.set_password('12345')
+            user.save()
+
             users.append(user)
 
         courses = []

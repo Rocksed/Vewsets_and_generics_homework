@@ -1,16 +1,19 @@
 from rest_framework import serializers
 
-from cool_school.models import Course, Lesson, Payment
-from user.models import User
+from cool_school.models import Course, Lesson, Payment, Subscription
+from cool_school.validators import ModelValidator
+
+from user.serlizers import UserSerializer
 
 
-class ModelValidator:
-    def __init__(self, field):
-        self.field = field
+class SubscriptionSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
 
-    def __call__(self, value):
-        if 'https://yotube.com/' not in value.get('video_link'):
-            raise serializers.ValidationError('You can only add youtube.com links')
+    class Meta:
+        model = Subscription
+
+        fields = '__all__'
+        read_only_fields = ('user', 'course')
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -37,10 +40,4 @@ class CourseSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = '__all__'
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
         fields = '__all__'
