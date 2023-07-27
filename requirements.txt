@@ -7,3 +7,7 @@ Faker
 django-filter
 djangorestframework-simplejwt
 coverage
+drf-yasg
+django-cors-headers
+requests
+stripe

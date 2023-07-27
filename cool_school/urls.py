@@ -4,11 +4,13 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from cool_school.views import LessonListAPIView, LessonCreateAPIView, LessonUpdateAPIView, \
     LessonDestroyAPIView, PaymentViewSet, CourseViewSet, SubscriptionListApiView, SubscriptionCreateApiView, \
-    SubscriptionDestroyApiView
+    SubscriptionDestroyApiView, UserCourseSubscriptionViewSet
 
 router = DefaultRouter()
 router.register(r'courses', CourseViewSet, basename='courses')
 router.register(r'payments', PaymentViewSet, basename='payments')
+router.register(r'user-course-subscription', UserCourseSubscriptionViewSet, basename='user-course-subscription')
+
 urlpatterns = [
                   path('lesson/', LessonListAPIView.as_view(), name='lesson_list'),
                   path('lesson/detail/<int:pk>', LessonListAPIView.as_view(), name='lesson_id'),
