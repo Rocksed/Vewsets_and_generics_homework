@@ -8,13 +8,10 @@ from cool_school.models import Course, Lesson, Payment, Subscription
 from cool_school.pagination import MyPagination
 from cool_school.serlizers import CourseSerializer, LessonSerializer, PaymentSerializer, SubscriptionSerializer
 
-from django.conf import settings
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-STRIPE_API_KEY = settings.STRIPE_API_KEY
-STRIPE_API_URL = "https://api.stripe.com/v1"
+from config.settings import STRIPE_API_KEY
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -97,7 +94,7 @@ class UserCourseSubscriptionViewSet(viewsets.ViewSet):
             course_price = payment.amount
 
             # Создать платежное намерение в Stripe
-            stripe.api_key = settings.STRIPE_SECRET_KEY
+            stripe.api_key = STRIPE_API_KEY
             payment_intent = stripe.PaymentIntent.create(
                 amount=course_price,
                 currency="usd",
@@ -117,7 +114,7 @@ class UserCourseSubscriptionViewSet(viewsets.ViewSet):
 
             course = Course.objects.get(pk=pk)
 
-            stripe.api_key = settings.STRIPE_SECRET_KEY
+            stripe.api_key = STRIPE_API_KEY
             payment_intent_id = course.payment_intent_id
             payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
 

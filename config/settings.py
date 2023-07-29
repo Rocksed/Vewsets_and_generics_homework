@@ -156,5 +156,5 @@ CORS_ALLOW_METHODS = (
     "POST",
     "PUT",
 )
-
+STRIPE_API_URL = "https://api.stripe.com/v1"
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')

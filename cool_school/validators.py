@@ -6,5 +6,5 @@ class ModelValidator:
         self.field = field
 
     def __call__(self, value):
-        if 'yotube.com' not in value.get('video_link'):
+        if 'youtube.com' not in value.get('video_link'):
             raise serializers.ValidationError('You can only add youtube.com links')
