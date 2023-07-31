@@ -12,6 +12,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from config.settings import STRIPE_API_KEY
+from cool_school.tasks import send_updated_email
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -19,6 +20,14 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     permission_classes = [IsAuthenticated]
     pagination_class = MyPagination
+
+    def update(self, request, *args, **kwargs):
+        send_updated_email.delay(kwargs['pk'])
+
+        return super().update(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class LessonListAPIView(generics.ListAPIView):
@@ -31,6 +40,9 @@ class LessonListAPIView(generics.ListAPIView):
 class LessonCreateAPIView(generics.ListCreateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
