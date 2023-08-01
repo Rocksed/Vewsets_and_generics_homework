@@ -2,7 +2,7 @@ from celery import shared_task
 from django.core.mail import send_mail
 
 from config import settings
-from cool_school.models import Subscription
+from cool_school.models import Subscription, Payment
 
 
 @shared_task
@@ -14,3 +14,11 @@ def send_updated_email(course):
         settings.EMAIL_HOST_USER,
         [subscribers.user]
     )
+
+
+def check_task():
+    query = Payment.objects.filter(status='requires_confirmation')
+    if query.exists():
+        for q in query:
+            q.status = 'succeded'
+            q.save()
